@@ -35,15 +35,22 @@ function onGalleryClick(event) {
     return;
   }
   const originalImg = event.target.dataset.source;
-  const modal = basicLightbox.create(`
-    <img src="${originalImg}">`);
+
+  const modal = basicLightbox.create(`<img src="${originalImg}">`, {
+    onShow: () => {
+      document.addEventListener("keydown", closeOnEscape);
+    },
+    onClose: () => {
+      document.removeEventListener("keydown", closeOnEscape);
+    },
+  });
+
   modal.show();
 
-  document.addEventListener("keydown", (event) => {
+  function closeOnEscape(event) {
     if (event.code !== "Escape") {
       return;
     }
     modal.close();
-    galleryRef.removeEventListener;
-  });
+  }
 }
